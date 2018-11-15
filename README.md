@@ -7,7 +7,7 @@ http://localhost:5000/index?d=/Your/Path
 Пример: 
 http://localhost:5000/index?d=User/vladislav/downloads
 
-По параметру d передается путь директории, которую необходимо просмотреть (простой фронтенд реализован в templates/index.html)
+По параметру d передается путь директории, которую необходимо просмотреть (фронтенд реализован в templates/index.html)
 
 Создание папки:
 http://localhost:5000/create?d=/Your/Path/NameOfFolder
