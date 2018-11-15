@@ -24,6 +24,8 @@ http://localhost:5000/download?d=/Your/Path/NameOfFile
 Пример:
 http://localhost:5000/download?d=User/vladislav/downloads/lab1.png
 
+В фронтенде скачивание осуществляется кликом на имя файла.
+
 Родительская директория по умолчанию - /Users
 
 
