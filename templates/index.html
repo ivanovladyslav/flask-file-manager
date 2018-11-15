@@ -32,12 +32,13 @@
 
     <script>
         data = JSON.parse('{{json|safe}}');
-        console.log(data);
+        var dirpath = data[data.length-1].path;
+        data.pop();
         $("form").append("<a id='createLink' class='btn btn-success' href='#'>Create New Folder</a>");
         $("#createLink").click(function(){
-            $(this).attr("href","create?d="+data[data.length-1].path+"/"+document.getElementById('name').value);
+            $(this).attr("href","create?d="+dirpath+"/"+document.getElementById('name').value);
         });
-        data.pop();
+
         function printWorkingDirectory(dir) {
             dir.forEach(function(elem) {
                 var current;
