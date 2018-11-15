@@ -3,7 +3,7 @@
 Просмотр содержимого директории:
 http://localhost:5000/index?d=/Your/Path
 Пример: 
-http://localhost:5000/index?d=/vladislav/downloads/
+http://localhost:5000/index?d=/vladislav/downloads
 
 По параметру d передается путь директории, которую необходимо просмотреть (простой фронтенд реализован в templates/index.html)
 
