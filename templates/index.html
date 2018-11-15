@@ -37,6 +37,7 @@
         $("#createLink").click(function(){
             $(this).attr("href","create?d="+data[data.length-1].path+"/"+document.getElementById('name').value);
         });
+        data.pop();
         function printWorkingDirectory(dir) {
             dir.forEach(function(elem) {
                 var current;
