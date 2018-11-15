@@ -1,5 +1,7 @@
 # flask-file-manager
 
+![alt text](https://pp.userapi.com/c846018/v846018601/133161/g5bniIakT-k.jpg)
+
 Просмотр содержимого директории:
 http://localhost:5000/index?d=/Your/Path
 Пример: 
