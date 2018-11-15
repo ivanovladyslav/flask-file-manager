@@ -9,17 +9,27 @@
   crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="create"></div>
+    <form>
+        <input type="text" id="name">
+    </form>
     <div class="tree-list">
     </div>
 
     <script>
         data = JSON.parse('{{json|safe}}');
+        console.log(data);
+        $("form").append("<a id='createLink' href='#'>Create New Folder</a>");
+        $("#createLink").click(function(){
+            $(this).attr("href","create?d="+data[data.length-1].path+"/"+document.getElementById('name').value);
+        });
         function printWorkingDirectory(dir) {
             dir.forEach(function(elem) {
-                var current = $(".tree-list").append("<li><a href='/index?d="+elem.path+"'>"+elem.name+" </a></li>");
+                var current;
                 if(elem.type == 'folder') {
+                    current = $(".tree-list").append("<li><a href='/index?d="+elem.path+"'>"+elem.name+" </a></li>");
                     current.append("<a href='/delete?d="+elem.path+"'>Delete Folder</a>");
+                } else {
+                    current = $(".tree-list").append("<li><a href='/download?d="+elem.path+"'>"+elem.name+" </a></li>");
                 }
             });
         }

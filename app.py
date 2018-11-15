@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 app.debug = True
 
-ParentDirectory = "/Users"
+ParentDirectory = ["/Users","/Users/"]
 
 def file_node(fpath):
     return {
@@ -16,7 +16,6 @@ def file_node(fpath):
     }
 
 def folder_node(fpath):
-    fpath = fpath.rsplit(ParentDirectory,10)[1]
     return {
         'name': path.basename(fpath),
         'type': 'folder',
@@ -27,32 +26,45 @@ def path_to_json(rootdir):
     root, folders, files = walk(rootdir).__next__()
     data = [folder_node(path.sep.join([root,folder])) for folder in folders]
     data += [file_node(path.sep.join([root,file])) for file in files]
+    data += [{'path': rootdir}]
     js = json.dumps(data)
     return js
 
 @app.route('/index')
 def index():
     curdir = request.args['d']
-    return render_template('index.html',json = path_to_json(ParentDirectory+curdir))
+    if not (curdir in ParentDirectory):
+        return render_template('index.html',json = path_to_json(curdir))
+    else:
+        return render_template('404.html')
 
 @app.route("/create")
 def create():
     curdir = request.args['d']
-    if(not os.path.isdir(ParentDirectory+curdir)):
-        os.makedirs(ParentDirectory+curdir)
-    return redirect('/index?d='+os.path.dirname(curdir))
+    if(not os.path.isdir(curdir)):
+        os.makedirs(curdir)
+    if not (curdir in ParentDirectory):
+        return redirect('/index?d='+os.path.dirname(curdir))
+    else:
+        return render_template('404.html')
 
 @app.route('/delete')
 def delete():
     curdir = request.args['d']
-    if(os.path.isdir(ParentDirectory+curdir)):
-        os.removedirs(ParentDirectory+curdir)
-    return redirect('/index?d='+os.path.dirname(curdir))
+    if(os.path.isdir(curdir)):
+        os.removedirs(curdir)
+    if not (curdir in ParentDirectory):
+        return redirect('/index?d='+os.path.dirname(curdir))
+    else:
+        return render_template('404.html')
 
 @app.route('/download', methods=['GET'])
 def download():
     curdir = request.args['d']
-    return send_file(ParentDirectory+curdir, as_attachment=True, attachment_filename=curdir.rsplit('/', 1)[-1])
+    if not (curdir in ParentDirectory):
+        return send_file(curdir, as_attachment=True, attachment_filename=curdir.rsplit('/', 1)[-1])
+    else:
+        return render_template('404.html')
 
 if __name__ == '__main__':
     app.run()
