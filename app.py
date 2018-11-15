@@ -33,7 +33,7 @@ def path_to_json(rootdir):
 @app.route('/index')
 def index():
     curdir = request.args['d']
-    if not (curdir in ParentDirectory):
+    if not (curdir in ParentDirectory) and (os.path.isdir(curdir)):
         return render_template('index.html',json = path_to_json(curdir))
     else:
         return render_template('404.html')
@@ -43,7 +43,7 @@ def create():
     curdir = request.args['d']
     if(not os.path.isdir(curdir)):
         os.makedirs(curdir)
-    if not (curdir in ParentDirectory):
+    if not (curdir in ParentDirectory) and (os.path.isdir(curdir)):
         return redirect('/index?d='+os.path.dirname(curdir))
     else:
         return render_template('404.html')
