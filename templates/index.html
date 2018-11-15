@@ -9,13 +9,18 @@
   crossorigin="anonymous"></script>
 </head>
 <body>
+    <div class="create"></div>
     <div class="tree-list">
     </div>
+
     <script>
         data = JSON.parse('{{json|safe}}');
         function printWorkingDirectory(dir) {
             dir.forEach(function(elem) {
-                $(".tree-list").append("<li><a href='/index?d="+elem.path+"'>"+elem.name+"</a></li>");
+                var current = $(".tree-list").append("<li><a href='/index?d="+elem.path+"'>"+elem.name+" </a></li>");
+                if(elem.type == 'folder') {
+                    current.append("<a href='/delete?d="+elem.path+"'>Delete Folder</a>");
+                }
             });
         }
         printWorkingDirectory(data);

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, redirect
 from os import walk, path
 import json
 import os
@@ -38,14 +38,16 @@ def index():
 @app.route("/create")
 def create():
     curdir = request.args['d']
-    os.makedirs(ParentDirectory+curdir+'/'+request.args['name'])
-    return render_template('index.html',json = path_to_json(ParentDirectory+curdir))
+    if(not os.path.isdir(ParentDirectory+curdir)):
+        os.makedirs(ParentDirectory+curdir)
+    return redirect('/index?d='+os.path.dirname(curdir))
 
 @app.route('/delete')
 def delete():
     curdir = request.args['d']
-    os.removedirs(ParentDirectory+curdir+'/'+request.args['name'])
-    return render_template('index.html',json = path_to_json(ParentDirectory+curdir))
+    if(os.path.isdir(ParentDirectory+curdir)):
+        os.removedirs(ParentDirectory+curdir)
+    return redirect('/index?d='+os.path.dirname(curdir))
 
 @app.route('/download', methods=['GET'])
 def download():
