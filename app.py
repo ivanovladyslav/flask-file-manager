@@ -23,7 +23,7 @@ def folder_node(fpath):
     }
 
 def path_to_json(rootdir):
-    root, folders, files = walk(rootdir).__next__()
+    root, folders, files = walk(rootdir).next()
     data = [folder_node(path.sep.join([root,folder])) for folder in folders]
     data += [file_node(path.sep.join([root,file])) for file in files]
     data += [{'path': rootdir}]
